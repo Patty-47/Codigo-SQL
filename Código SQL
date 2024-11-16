@@ -1,0 +1,66 @@
+create database faculdade;
+use faculdade;
+
+create table alunos (
+ID_aluno int primary key auto_increment,
+Nome varchar(40),
+matrícula int unique,
+Data_Nascimento date,
+endereco varchar(50), 
+contato char (15),
+curso_ID int,
+foreign key (curso_ID) references cursos (ID_curso)
+);
+
+create table cursos (
+ID_curso int primary key auto_increment,
+nome_curso varchar (60),
+carga_horária int,
+descricao text 
+);
+
+create table materias (
+ID_materia int primary key auto_increment,
+nome_matéria varchar (40),
+codigo varchar (6) unique,
+carga_horaria int not null,
+curso_ID int,
+pre_requisito int,
+foreign key (curso_ID) references cursos(ID_curso),
+FOREIGN KEY (Pre_Requisito) REFERENCES Materias(ID_Materia)
+);
+
+create table professores (
+ID_professor int primary key auto_increment,
+nome_professor varchar (60) not null,
+contato varchar (50),
+especializaçao varchar (100)
+);
+
+create table turmas (
+ID_turma int primary key auto_increment,
+curso_ID int,
+materia_ID int,
+professor_ID int,
+horario varchar (40),
+foreign key (curso_id) references cursos(ID_curso),
+foreign key (materia_id) references materias(ID_materia),
+foreign key (professor_id) references professores(ID_professor)
+);
+
+create table aluno_turma (
+ID int primary key auto_increment,
+aluno_ID int,
+turma_ID int,
+foreign key (aluno_ID) references alunos(ID_aluno),
+foreign key (turma_ID) references turmas(ID_turma)
+);
+
+create table notas (
+ID int primary key auto_increment,
+aluno_ID int,
+materia_ID int,
+nota decimal (5, 2),
+foreign key (aluno_ID) references alunos(ID_aluno),
+foreign key (materia_ID) references materias(ID_materia)
+);
